@@ -797,9 +797,11 @@ def humble_chooser_mode(humble_session,order_details):
     count = 0
     first = True
     for month in months:
-        redeem_all = None
+        select_all = None
         if(first):
+            auto_reveal_by_rating = prompt_yes_no("Would you like to auto-reveal games based on overall steam rating? (Will require Steam login)")
             redeem_keys = prompt_yes_no("Would you like to auto-redeem these keys after? (Will require Steam login)")
+
             first = False
         
         ready = False
@@ -813,7 +815,7 @@ def humble_chooser_mode(humble_session,order_details):
             else:
                 remaining = len(month["available_choices"])
             print("Available Games:\n")
-            choices = month["available_choices"]
+            choices = sorted(month["available_choices"], key=lambda item: item.get('user_rating', {}).get('steam_percent|decimal', float('-inf')), reverse=True)
             for idx,choice in enumerate(choices):
                 title = choice["title"]
                 rating_text = ""
@@ -826,12 +828,16 @@ def humble_chooser_mode(humble_session,order_details):
                     # These are weird cases that should be handled by Humble.
                     exception = " (Must be redeemed through Humble directly)"
                 print(f"{idx+1}. {title}{rating_text}{exception}")
-            if(redeem_all == None and remaining == len(choices)):
-                redeem_all = prompt_yes_no("Would you like to redeem all?")
+
+            if select_all == None and remaining == len(choices) and auto_reveal_by_rating is False:
+                select_all = prompt_yes_no("Would you like to select all?")
+            elif auto_reveal_by_rating is True:
+                select_all = True
+                choices = choices[:remaining]
             else:
-                redeem_all = False
+                select_all = False
             
-            if(redeem_all):
+            if select_all:
                 user_input = [str(i+1) for i in range(0,len(choices))]
             else:
                 if(redeem_keys):
@@ -875,7 +881,10 @@ def humble_chooser_mode(humble_session,order_details):
                         print("\nGames selected:")
                         for choice in chosen:
                             print(choice["title"])
-                        confirmed = prompt_yes_no("Please type 'y' to confirm your selection")
+                        if(select_all is False):
+                            confirmed = prompt_yes_no("Please type 'y' to confirm your selection")
+                        else:
+                            confirmed = True
                         if confirmed:
                             choice_month_name = month["product"]["choice_url"]
                             identifier = month["parent_identifier"]

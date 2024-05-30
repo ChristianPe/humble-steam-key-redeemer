@@ -1,3 +1,4 @@
+Forked from https://github.com/FailSpy/humble-steam-key-redeemer
 # Humble Steam Key Redeemer
 Python utility script to extract Humble keys, and redeem them on Steam automagically by detecting when a game is already owned on Steam.
 
@@ -18,7 +19,7 @@ Find all games from Humble, optionally revealing all unrevealed keys, and output
 This is great if you want a manual review of what games are in your keys list that you may have missed.
 ### Humble Chooser Mode
 For those subscribed to Humble Choice, this mode will find any Humble Monthly/Choice that has unclaimed choices, and will let you select, reveal, and optionally autoredeem on Steam the keys you select
-
+There is also a reveal all options for those who want to reveal as many keys as they have choices left, based on the overall steam rating. 
 #
 ### Notes
 
