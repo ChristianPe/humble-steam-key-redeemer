@@ -24,7 +24,8 @@ There is also a reveal all options for those who want to reveal as many keys as 
 ### Notes
 
 To remove an already added account, delete the associated `.(humble|steam)cookies` file.
-
+### known problems
+If you use 2fa via App/Email,you have to login via web to get the 2fa sent to you by email and use this 2fa token instead.
 ### Dependencies
 
 Requires Python version 3.6 or above
@@ -43,4 +44,10 @@ pip install -r requirements.txt
 If you want to install `python-Levenshtein`:
 ```
 pip install python-Levenshtein
+```
+
+### how to start
+open up a console in the folder where the project is located and run the following command:
+```
+./run_redeemer.bat
 ```
